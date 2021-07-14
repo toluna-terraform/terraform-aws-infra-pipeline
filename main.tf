@@ -36,17 +36,7 @@ resource "aws_iam_role" "codebuild_tf_admin" {
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role_policy.json
 }
 
-resource "aws_iam_role_policy_attachment" "TF-SystemAdministrator" {
+resource "aws_iam_role_policy_attachment" "TF-AdministratorAccess" {
   role = aws_iam_role.codebuild_tf_admin.name
-  policy_arn = "arn:aws:iam::aws:policy/job-function/SystemAdministrator"
-}
-
-resource "aws_iam_role_policy_attachment" "TF-NetworkAdministrator" {
-  role = aws_iam_role.codebuild_tf_admin.name
-  policy_arn = "arn:aws:iam::aws:policy/job-function/NetworkAdministrator"
-}
-
-resource "aws_iam_role_policy_attachment" "TF-DatabaseAdministrator" {
-  role = aws_iam_role.codebuild_tf_admin.name
-  policy_arn = "arn:aws:iam::aws:policy/job-function/DatabaseAdministrator"
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
