@@ -50,7 +50,7 @@ resource "aws_codebuild_project" "tf_source" {
   source {
     type     = "BITBUCKET"
     location = local.source_repository_url
-    buildspec = templatefile("${path.module}/templates/buildspec.yml.tpl", { ENV_VAR = "testing 124"})
+    buildspec = templatefile("${path.module}/templates/buildspec-git-merge.yml.tpl", { ENV_VAR = "testing 124"})
   }
   tags = tomap({
     Name        = "codebuild-${local.build_name}",

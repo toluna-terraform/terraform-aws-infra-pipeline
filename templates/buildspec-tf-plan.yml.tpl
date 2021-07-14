@@ -6,14 +6,18 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      docker: 18
+    commands:
+      - yum install -y yum-utils
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum -y install terraform
   build:
     commands:
       - echo Build started on `date`
-      - ls -l
+      - cd terraform/app
+      - terraform init
+      - terraform plan -out=tf.plan
 artifacts:
   files:
-    - '**/*'
+    - 'tf.plan'
   discard-paths: no
   name: tf.plan

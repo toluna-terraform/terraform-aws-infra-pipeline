@@ -1,13 +1,17 @@
 variable "env_name" {
-    type = string
+  type = string
 }
 
 variable "source_repository" {
-    type = string
-    default = "tolunaengineering/chorus"
+  type    = string
+  default = "tolunaengineering/chorus"
 }
 
 variable "trigger_branch" {
-    type     = string
- }
+  type = string
+}
+
+variable "tf_backend_bucket" {
+  type = string
+}
 

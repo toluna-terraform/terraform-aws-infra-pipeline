@@ -60,7 +60,9 @@ data "aws_iam_policy_document" "codebuild_role_policy" {
         ]
     resources = [
           "${aws_s3_bucket.codepipeline_bucket.arn}",
-          "${aws_s3_bucket.codepipeline_bucket.arn}/*"
+          "${aws_s3_bucket.codepipeline_bucket.arn}/*",
+          "${data.aws_s3_bucket.tf_backend.arn}",
+          "${data.aws_s3_bucket.tf_backend.arn}/*"
         ]
   }
   statement {
@@ -74,4 +76,8 @@ data "aws_iam_policy_document" "codebuild_role_policy" {
         ]
     resources = ["*"]
   }
+}
+
+data "aws_s3_bucket" "tf_backend" {
+  bucket = var.tf_backend_bucket  
 }
