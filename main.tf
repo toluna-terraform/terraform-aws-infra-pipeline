@@ -32,12 +32,32 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name               = "role-${local.build_name}"
+  name               = "role-codebuild-${var.env_name}"
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role_policy.json
 }
 
 resource "aws_iam_role_policy" "cloudWatch_policy" {
-  name   = "policy-cloudwatch-${local.pipeline_name}"
+  name   = "policy-codebuild-${var.env_name}"
   role   = aws_iam_role.codebuild_role.id
   policy = data.aws_iam_policy_document.codebuild_role_policy.json
+}
+
+resource "aws_iam_role" "codebuild_tf_admin" {
+  name               = "role-tf-${var.env_name}"
+  assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "TF-SystemAdministrator" {
+  role = aws_iam_role.codebuild_tf_admin.name
+  policy_arn = "arn:aws:iam::aws:policy/job-function/SystemAdministrator"
+}
+
+resource "aws_iam_role_policy_attachment" "TF-NetworkAdministrator" {
+  role = aws_iam_role.codebuild_tf_admin.name
+  policy_arn = "arn:aws:iam::aws:policy/job-function/NetworkAdministrator"
+}
+
+resource "aws_iam_role_policy_attachment" "TF-DatabaseAdministrator" {
+  role = aws_iam_role.codebuild_tf_admin.name
+  policy_arn = "arn:aws:iam::aws:policy/job-function/DatabaseAdministrator"
 }
