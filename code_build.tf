@@ -87,7 +87,7 @@ resource "aws_codebuild_project" "tf_plan" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-tf-plan.yml.tpl", { ENV_VAR = "testing 124"})
+    buildspec = templatefile("${path.module}/templates/buildspec-tf-plan.yml.tpl", { ENV_NAME = "${var.env_name}"})
   }
   tags = tomap({
     Name        = "codebuild-${local.build_name}",
