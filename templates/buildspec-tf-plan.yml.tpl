@@ -15,7 +15,7 @@ phases:
       - echo Build started on `date`
       - cd terraform/app
       - terraform init
-      - terraform workspace select $ENV_NAME
+      - terraform workspace select ${ENV_NAME}
       - terraform plan -out=tf.plan
 artifacts:
   files:
