@@ -65,6 +65,16 @@ data "aws_iam_policy_document" "codebuild_role_policy" {
           "${data.aws_s3_bucket.tf_backend.arn}/*"
         ]
   }
+
+  statement {
+    actions   = [
+          "s3:ListBucket",
+        ]
+    resources = [
+          "${data.aws_s3_bucket.tf_backend.arn}",
+          "${data.aws_s3_bucket.tf_backend.arn}/*"
+        ]
+  }
   statement {
     actions   = [
             "logs:CreateLogGroup",
