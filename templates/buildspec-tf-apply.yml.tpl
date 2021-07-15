@@ -14,8 +14,7 @@ phases:
     commands:
       - echo Build started on `date`
       - cd terraform/app
-      - ls -l $CODEBUILD_SRC_DIR_build_output/
-      - mv $CODEBUILD_SRC_DIR_build_output/plan.out .
+      - mv $CODEBUILD_SRC_DIR_build_output/tf.plan .
       - terraform init
       - terraform workspace select ${ENV_NAME}
-      - terraform apply -auto-approve plan.out
+      - terraform apply -auto-approve tf.plan
