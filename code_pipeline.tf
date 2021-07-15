@@ -47,6 +47,7 @@ resource "aws_codepipeline" "codepipeline" {
       category = "Approval"
       owner = "AWS"
       provider = "Manual"
+      version = 1
     }
   }
 }
