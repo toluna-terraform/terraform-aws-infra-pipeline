@@ -13,7 +13,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - aws s3 ls s3://${TF_BUCKET}
+      - echo ${PR_payload}
       - cd terraform/app
       - terraform init
       - terraform workspace select ${ENV_NAME}

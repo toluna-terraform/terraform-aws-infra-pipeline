@@ -1,9 +1,9 @@
-resource "aws_codebuild_webhook" "name" {
+resource "aws_codebuild_webhook" "bitbucket" {
   project_name = aws_codebuild_project.tf_source.name
   filter_group {
     filter {
       type    = "EVENT"
-      pattern = "PUSH"
+      pattern = "PULL_REQUEST_CREATED"
     }
     filter {
       type    = "FILE_PATH"
@@ -26,10 +26,10 @@ resource "aws_codebuild_project" "tf_source" {
   service_role  = aws_iam_role.codebuild_tf_admin.arn
 
   artifacts {
-    packaging = "ZIP"
-    type      = "S3"
+    packaging              = "ZIP"
+    type                   = "S3"
     override_artifact_name = true
-    location  = aws_s3_bucket.codepipeline_bucket.bucket
+    location               = aws_s3_bucket.codepipeline_bucket.bucket
   }
 
   environment {
@@ -48,9 +48,9 @@ resource "aws_codebuild_project" "tf_source" {
   }
 
   source {
-    type     = "BITBUCKET"
-    location = local.source_repository_url
-    buildspec = templatefile("${path.module}/templates/buildspec-git-merge.yml.tpl", { ENV_VAR = "testing 124"})
+    type      = "BITBUCKET"
+    location  = local.source_repository_url
+    buildspec = templatefile("${path.module}/templates/buildspec-git-merge.yml.tpl", { ENV_VAR = "testing 124" })
   }
   tags = tomap({
     Name        = "codebuild-${local.build_name}",
@@ -86,8 +86,12 @@ resource "aws_codebuild_project" "tf_plan" {
   }
 
   source {
-    type      = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-tf-plan.yml.tpl", { ENV_NAME = "${var.env_name}", TF_BUCKET = "${var.tf_backend_bucket}"})
+    type = "CODEPIPELINE"
+    buildspec = templatefile("${path.module}/templates/buildspec-tf-plan.yml.tpl",
+      {
+        ENV_NAME   = "${var.env_name}",
+        PR_payload = "${aws_codebuild_webhook.bitbucket.payload_url}"
+    })
   }
   tags = tomap({
     Name        = "codebuild-${local.build_name}",
@@ -124,7 +128,7 @@ resource "aws_codebuild_project" "tf_apply" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-tf-apply.yml.tpl", { ENV_NAME = "${var.env_name}", TF_BUCKET = "${var.tf_backend_bucket}"})
+    buildspec = templatefile("${path.module}/templates/buildspec-tf-apply.yml.tpl", { ENV_NAME = "${var.env_name}", TF_BUCKET = "${var.tf_backend_bucket}" })
   }
   tags = tomap({
     Name        = "codebuild-${local.build_name}",
