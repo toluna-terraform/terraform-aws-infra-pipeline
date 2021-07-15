@@ -41,6 +41,13 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = aws_codebuild_project.tf_plan.name
       }
     }
+
+    action {
+      name = "Approve_Plan"
+      category = "Approval"
+      owner = "AWS"
+      provider = "Manual"
+    }
   }
 }
 
