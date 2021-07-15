@@ -11,7 +11,7 @@ resource "aws_codebuild_webhook" "bitbucket" {
     }
 
     filter {
-      type    = "HEAD_REF"
+      type    = "BASE_REF"
       pattern = var.trigger_branch
     }
   }
