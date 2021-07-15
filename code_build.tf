@@ -97,8 +97,8 @@ resource "aws_codebuild_project" "tf_plan" {
 }
 
 resource "aws_codebuild_project" "tf_apply" {
-  name          = "${local.build_name}-plan"
-  description   = "Generate TF plan"
+  name          = "${local.build_name}-apply"
+  description   = "Apply TF plan"
   build_timeout = "120"
   service_role  = aws_iam_role.codebuild_tf_admin.arn
 
