@@ -59,7 +59,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = "1"
-      input_artifacts  = ["build_output"]
+      input_artifacts  = ["build_output","source_output"]
       configuration = {
         ProjectName = aws_codebuild_project.tf_apply.name
       }
