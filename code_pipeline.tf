@@ -50,6 +50,22 @@ resource "aws_codepipeline" "codepipeline" {
       version = 1
     }
   }
+
+  stage {
+    name = "Apply"
+    action {
+      name             = "TF_Apply"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["build_output"]
+      configuration = {
+        ProjectName = aws_codebuild_project.tf_apply.name
+      }
+    }
+  }
+
 }
 
 
