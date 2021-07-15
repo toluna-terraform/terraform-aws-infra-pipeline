@@ -13,11 +13,13 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - aws s3 ls s3://${TF_BUCKET}
       - cd terraform/app
       - terraform init
+      - terraform workspace select ${ENV_NAME}
       - terraform plan -out=tf.plan
 artifacts:
   files:
-    - 'tf.plan'
-  discard-paths: no
+    - 'terraform/app/tf.plan'
+  discard-paths: yes
   name: tf.plan

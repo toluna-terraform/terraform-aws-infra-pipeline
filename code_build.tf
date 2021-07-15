@@ -23,7 +23,7 @@ resource "aws_codebuild_project" "tf_source" {
   name          = "${local.build_name}-source"
   description   = "Pull TF source files from Git repo"
   build_timeout = "120"
-  service_role  = aws_iam_role.codebuild_role.arn
+  service_role  = aws_iam_role.codebuild_tf_admin.arn
 
   artifacts {
     packaging = "ZIP"
@@ -63,7 +63,7 @@ resource "aws_codebuild_project" "tf_plan" {
   name          = "${local.build_name}-plan"
   description   = "Generate TF plan"
   build_timeout = "120"
-  service_role  = aws_iam_role.codebuild_role.arn
+  service_role  = aws_iam_role.codebuild_tf_admin.arn
 
   artifacts {
     override_artifact_name = true
@@ -87,7 +87,7 @@ resource "aws_codebuild_project" "tf_plan" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-tf-plan.yml.tpl", { ENV_VAR = "testing 124"})
+    buildspec = templatefile("${path.module}/templates/buildspec-tf-plan.yml.tpl", { ENV_NAME = "${var.env_name}", TF_BUCKET = "${var.tf_backend_bucket}"})
   }
   tags = tomap({
     Name        = "codebuild-${local.build_name}",
