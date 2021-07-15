@@ -41,7 +41,32 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = aws_codebuild_project.tf_plan.name
       }
     }
+
+    action {
+      name = "Approve_Plan"
+      category = "Approval"
+      owner = "AWS"
+      provider = "Manual"
+      version = 1
+    }
   }
+
+  stage {
+    name = "Apply"
+    action {
+      name             = "TF_Apply"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["build_output","source_output"]
+      configuration = {
+        ProjectName = aws_codebuild_project.tf_apply.name
+        PrimarySource = "source_output"
+      }
+    }
+  }
+
 }
 
 
