@@ -62,6 +62,7 @@ resource "aws_codepipeline" "codepipeline" {
       input_artifacts  = ["build_output","source_output"]
       configuration = {
         ProjectName = aws_codebuild_project.tf_apply.name
+        PrimarySource = "source_output"
       }
     }
   }
