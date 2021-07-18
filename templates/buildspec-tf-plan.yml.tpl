@@ -15,7 +15,7 @@ phases:
       - echo Build started on `date`
       - ls -l
       - cat env_vars.props
-      - source env_vars.props
+      - export $(cat env_vars.props | xargs)
       - export PR_HOOK="https://bitbucket.org/api/2.0/repositories/tolunaengineering/chorus/pullrequests/$PR_NUM"
       - curl $PR_HOOK
       - cd terraform/app
