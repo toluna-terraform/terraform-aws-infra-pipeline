@@ -4,6 +4,9 @@
 
 version: 0.2
 
+env:
+  exported-variables:
+    - CODEBUILD_WEBHOOK_TRIGGER
 phases:
   install:
     runtime-versions:

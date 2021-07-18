@@ -10,7 +10,7 @@ phases:
       - yum install -y yum-utils
       - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
       - yum -y install terraform
-      - PR_HOOK="https://bitbucket.org/api/2.0/repositories/tolunaengineering/chorus/pullrequests/${CODEBUILD_WEBHOOK_TRIGGER}"
+      - PR_HOOK="https://bitbucket.org/api/2.0/repositories/tolunaengineering/chorus/pullrequests/$CODEBUILD_WEBHOOK_TRIGGER"
   build:
     commands:
       - echo Build started on `date`
