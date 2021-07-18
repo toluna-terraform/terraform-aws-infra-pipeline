@@ -15,8 +15,8 @@ phases:
       - echo Build started on `date`
       - ls -l
       - cat env_vars.props
-      - eval $(cat env_vars.props)
-      - export PR_HOOK="https://bitbucket.org/api/2.0/repositories/tolunaengineering/chorus/pullrequests/$CODEBUILD_WEBHOOK_TRIGGER"
+      - source env_vars.props
+      - export PR_HOOK="https://bitbucket.org/api/2.0/repositories/tolunaengineering/chorus/pullrequests/$PR_NUM"
       - curl $PR_HOOK
       - cd terraform/app
       - terraform init

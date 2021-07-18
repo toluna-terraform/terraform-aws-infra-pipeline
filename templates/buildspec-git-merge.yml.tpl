@@ -12,7 +12,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo $CODEBUILD_WEBHOOK_TRIGGER
-      - echo "CODEBUILD_WEBHOOK_TRIGGER=$CODEBUILD_WEBHOOK_TRIGGER" > env_vars.props
+      - echo "PR_NUM=$(echo $CODEBUILD_WEBHOOK_TRIGGER | cut -d'/' -f2)"  > env_vars.props
 artifacts:
   files:
     - '**/*'
