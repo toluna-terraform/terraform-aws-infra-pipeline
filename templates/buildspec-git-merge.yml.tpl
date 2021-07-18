@@ -4,9 +4,6 @@
 
 version: 0.2
 
-env:
-  exported-variables:
-    - CODEBUILD_WEBHOOK_TRIGGER
 phases:
   install:
     runtime-versions:
@@ -14,6 +11,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo "CODEBUILD_WEBHOOK_TRIGGER=$CODEBUILD_WEBHOOK_TRIGGER" > env_vars.props
 artifacts:
   files:
     - '**/*'
